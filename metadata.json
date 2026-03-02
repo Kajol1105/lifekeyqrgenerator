@@ -1,0 +1,5 @@
+{
+  "name": "LifeKey: Offline Emergency QR",
+  "description": "Generate a secure, offline QR code containing your emergency medical information and contacts for immediate access by first responders.",
+  "requestFramePermissions": []
+}
