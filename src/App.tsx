@@ -11,11 +11,13 @@ import {
   Share2, 
   RefreshCw,
   CheckCircle2,
-  Info
+  Info,
+  Globe
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import { useLanguage } from './LanguageContext';
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -39,6 +41,7 @@ interface EmergencyData {
 const BLOOD_GROUPS = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-', 'Unknown'];
 
 export default function App() {
+  const { t, language, setLanguage, languages } = useLanguage();
   const [formData, setFormData] = useState<EmergencyData>({
     fullName: '',
     bloodGroup: '',
@@ -100,21 +103,21 @@ export default function App() {
   };
 
   const formatEmergencyText = (data: EmergencyData) => {
-    let text = `🚨 EMERGENCY INFO 🚨\n`;
-    text += `Name: ${data.fullName}\n`;
-    text += `Blood: ${data.bloodGroup || 'Not Specified'}\n`;
-    if (data.medicalNeeds) text += `Medical: ${data.medicalNeeds}\n`;
-    text += `Area: ${data.area}\n`;
+    let text = `${t.emergencyInfoHeader}\n`;
+    text += `${t.nameLabel}: ${data.fullName}\n`;
+    text += `${t.bloodLabel}: ${data.bloodGroup || t.notSpecified}\n`;
+    if (data.medicalNeeds) text += `${t.medicalLabel}: ${data.medicalNeeds}\n`;
+    text += `${t.areaLabel}: ${data.area}\n`;
     
     const c1Rel = data.contact1Relation ? ` (${data.contact1Relation})` : '';
-    text += `Contact 1: ${data.contact1Name}${c1Rel} - ${data.contact1Phone}\n`;
+    text += `${t.contact1Label}: ${data.contact1Name}${c1Rel} - ${data.contact1Phone}\n`;
     
     if (data.contact2Name && data.contact2Phone) {
       const c2Rel = data.contact2Relation ? ` (${data.contact2Relation})` : '';
-      text += `Contact 2: ${data.contact2Name}${c2Rel} - ${data.contact2Phone}\n`;
+      text += `${t.contact2Label}: ${data.contact2Name}${c2Rel} - ${data.contact2Phone}\n`;
     }
-    text += `Police: ${data.policeNumber}\n`;
-    text += `Ambulance: ${data.ambulanceNumber}`;
+    text += `${t.policeLabel}: ${data.policeNumber}\n`;
+    text += `${t.ambulanceLabel}: ${data.ambulanceNumber}`;
     return text;
   };
 
@@ -152,7 +155,7 @@ export default function App() {
   };
 
   const resetForm = () => {
-    if (confirm('Are you sure you want to clear all data?')) {
+    if (confirm(t.confirmClear)) {
       setFormData({
         fullName: '',
         bloodGroup: '',
@@ -183,12 +186,21 @@ export default function App() {
             <div className="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center">
               <Plus className="text-white w-5 h-5" />
             </div>
-            <h1 className="text-xl font-bold tracking-tight">LifeKey</h1>
+            <h1 className="text-xl font-bold tracking-tight">{t.appName}</h1>
           </div>
           <div className="flex items-center gap-4">
+            <select
+              value={language}
+              onChange={(e) => setLanguage(e.target.value)}
+              className="px-3 py-1.5 text-sm font-medium bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 outline-none transition-all cursor-pointer flex items-center gap-1"
+            >
+              {languages.map(lang => (
+                <option key={lang.code} value={lang.code}>{lang.name}</option>
+              ))}
+            </select>
             <span className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 bg-green-50 text-green-700 text-xs font-semibold rounded-full border border-green-100">
               <CheckCircle2 className="w-3 h-3" />
-              100% Offline
+              {t.offline}
             </span>
           </div>
         </div>
@@ -202,57 +214,57 @@ export default function App() {
             <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
               <div className="flex items-center gap-2 mb-6">
                 <User className="w-5 h-5 text-red-600" />
-                <h2 className="text-lg font-semibold">Personal Information</h2>
+                <h2 className="text-lg font-semibold">{t.personalInformation}</h2>
               </div>
               
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">{t.fullName}</label>
                   <input
                     type="text"
                     name="fullName"
                     value={formData.fullName}
                     onChange={handleInputChange}
-                    placeholder="e.g. John Doe"
+                    placeholder={t.fullNamePlaceholder}
                     className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all outline-none"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Blood Group</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">{t.bloodGroup}</label>
                     <select
                       name="bloodGroup"
                       value={formData.bloodGroup}
                       onChange={handleInputChange}
                       className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all outline-none bg-white"
                     >
-                      <option value="">Select</option>
+                      <option value="">{t.selectBloodGroup}</option>
                       {BLOOD_GROUPS.map(bg => (
                         <option key={bg} value={bg}>{bg}</option>
                       ))}
                     </select>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Area (City/Locality)</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">{t.area}</label>
                     <input
                       type="text"
                       name="area"
                       value={formData.area}
                       onChange={handleInputChange}
-                      placeholder="e.g. Karjat, Maharashtra"
+                      placeholder={t.areaPlaceholder}
                       className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all outline-none"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Medical Needs / Disability</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">{t.medicalNeeds}</label>
                   <textarea
                     name="medicalNeeds"
                     value={formData.medicalNeeds}
                     onChange={handleInputChange}
-                    placeholder="e.g. Asthma, Diabetic, Epilepsy, Wheelchair user"
+                    placeholder={t.medicalNeedsPlaceholder}
                     rows={3}
                     className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all outline-none resize-none"
                   />
@@ -263,19 +275,19 @@ export default function App() {
             <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
               <div className="flex items-center gap-2 mb-6">
                 <Phone className="w-5 h-5 text-red-600" />
-                <h2 className="text-lg font-semibold">Emergency Contacts</h2>
+                <h2 className="text-lg font-semibold">{t.emergencyContacts}</h2>
               </div>
 
               <div className="space-y-6">
                 <div className="space-y-3">
-                  <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider">Primary Contact</h3>
+                  <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider">{t.primaryContact}</h3>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <input
                       type="text"
                       name="contact1Name"
                       value={formData.contact1Name}
                       onChange={handleInputChange}
-                      placeholder="Name of the contact to call in emergency"
+                      placeholder={t.primaryContactNamePlaceholder}
                       className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all outline-none"
                     />
                     <input
@@ -283,7 +295,7 @@ export default function App() {
                       name="contact1Relation"
                       value={formData.contact1Relation}
                       onChange={handleInputChange}
-                      placeholder="Relation (e.g. Mother)"
+                      placeholder={t.relationPlaceholder}
                       className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all outline-none"
                     />
                     <input
@@ -291,21 +303,21 @@ export default function App() {
                       name="contact1Phone"
                       value={formData.contact1Phone}
                       onChange={handleInputChange}
-                      placeholder="Phone Number"
+                      placeholder={t.phoneNumberPlaceholder}
                       className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all outline-none"
                     />
                   </div>
                 </div>
 
                 <div className="space-y-3">
-                  <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider">Secondary Contact (Optional)</h3>
+                  <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider">{t.secondaryContact}</h3>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <input
                       type="text"
                       name="contact2Name"
                       value={formData.contact2Name}
                       onChange={handleInputChange}
-                      placeholder="Name oft he person to contact in case primary is unreachable"
+                      placeholder={t.secondaryContactNamePlaceholder}
                       className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all outline-none"
                     />
                     <input
@@ -313,7 +325,7 @@ export default function App() {
                       name="contact2Relation"
                       value={formData.contact2Relation}
                       onChange={handleInputChange}
-                      placeholder="Relation (e.g. Brother)"
+                      placeholder={t.relationPlaceholder}
                       className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all outline-none"
                     />
                     <input
@@ -321,7 +333,7 @@ export default function App() {
                       name="contact2Phone"
                       value={formData.contact2Phone}
                       onChange={handleInputChange}
-                      placeholder="Phone Number"
+                      placeholder={t.phoneNumberPlaceholder}
                       className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all outline-none"
                     />
                   </div>
@@ -332,11 +344,11 @@ export default function App() {
             <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
               <div className="flex items-center gap-2 mb-6">
                 <AlertCircle className="w-5 h-5 text-red-600" />
-                <h2 className="text-lg font-semibold">Emergency Services</h2>
+                <h2 className="text-lg font-semibold">{t.emergencyServices}</h2>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Police</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">{t.police}</label>
                   <input
                     type="tel"
                     name="policeNumber"
@@ -346,7 +358,7 @@ export default function App() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Ambulance</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">{t.ambulance}</label>
                   <input
                     type="tel"
                     name="ambulanceNumber"
@@ -365,14 +377,14 @@ export default function App() {
                 className="flex-1 bg-red-600 hover:bg-red-700 disabled:bg-red-400 text-white font-bold py-4 px-6 rounded-2xl shadow-lg shadow-red-200 transition-all active:scale-[0.98] flex items-center justify-center gap-2 text-lg"
               >
                 <Download className="w-6 h-6" />
-                Download Emergency QR
+                {t.downloadEmergencyQR}
               </button>
               <button
                 onClick={resetForm}
                 className="px-6 py-4 bg-gray-100 hover:bg-gray-200 text-gray-600 font-semibold rounded-2xl transition-all"
                 title="Clear all data"
               >
-                Clear
+                {t.clear}
               </button>
             </div>
           </section>
@@ -397,8 +409,8 @@ export default function App() {
                     </div>
                     
                     <div className="space-y-2">
-                      <h3 className="text-2xl font-bold text-gray-900">Your Emergency QR</h3>
-                      <p className="text-gray-500 text-sm">Download and keep this in your wallet or as your lock screen wallpaper.</p>
+                      <h3 className="text-2xl font-bold text-gray-900">{t.yourEmergencyQR}</h3>
+                      <p className="text-gray-500 text-sm">{t.downloadInstructions}</p>
                     </div>
 
                     <div className="grid grid-cols-1 gap-3">
@@ -407,7 +419,7 @@ export default function App() {
                         className="w-full bg-gray-900 hover:bg-black text-white font-bold py-4 px-6 rounded-2xl transition-all flex items-center justify-center gap-2"
                       >
                         <Download className="w-5 h-5" />
-                        Download as JPEG
+                        {t.downloadAsJPEG}
                       </button>
                     </div>
 
@@ -415,7 +427,7 @@ export default function App() {
                       <div className="flex items-center justify-between mb-4">
                         <div className="flex items-center gap-2 text-gray-400">
                           <AlertCircle className="w-4 h-4" />
-                          <span className="text-xs font-bold uppercase tracking-widest">Encoded Information (Editable)</span>
+                          <span className="text-xs font-bold uppercase tracking-widest">{t.encodedInformation} ({t.editable})</span>
                         </div>
                         <div className="flex items-center gap-3">
                           {isManual && (
@@ -423,7 +435,7 @@ export default function App() {
                               onClick={resetToForm}
                               className="text-xs font-bold text-red-600 hover:text-red-700 underline underline-offset-4"
                             >
-                              Reset to Form
+                              {t.resetToForm}
                             </button>
                           )}
                           {isGenerating && <RefreshCw className="w-3 h-3 animate-spin text-red-500" />}
@@ -434,7 +446,7 @@ export default function App() {
                         onChange={handleTextChange}
                         rows={8}
                         className="w-full bg-gray-50 rounded-xl p-4 font-mono text-sm text-gray-700 leading-relaxed border border-transparent focus:border-red-200 focus:bg-white transition-all outline-none resize-none"
-                        placeholder="Type emergency information here..."
+                        placeholder={t.typeEmergencyInfo}
                       />
                     </div>
                   </div>
@@ -445,8 +457,8 @@ export default function App() {
                     <Share2 className="w-10 h-10 text-gray-400" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-gray-400">QR Preview</h3>
-                    <p className="text-gray-400 max-w-[240px] mx-auto">Fill the form and click generate to see your emergency QR code here.</p>
+                    <h3 className="text-xl font-bold text-gray-400">{t.qrPreviewTitle}</h3>
+                    <p className="text-gray-400 max-w-[240px] mx-auto">{t.qrPreviewText}</p>
                   </div>
                 </div>
               )}
@@ -465,11 +477,9 @@ export default function App() {
                 <Info className="w-6 h-6 text-blue-600" />
               </div>
               <div className="space-y-1">
-                <h4 className="font-bold text-blue-900">How it works</h4>
+                <h4 className="font-bold text-blue-900">{t.howItWorks}</h4>
                 <p className="text-sm text-blue-800 leading-relaxed max-w-4xl">
-                  This system generates a QR code that stores your data <strong>directly</strong>. 
-                  When scanned, it displays your info instantly even without an internet connection. 
-                  No data is uploaded to any server.
+                  {t.howItWorksDescription}
                 </p>
               </div>
             </div>
@@ -477,7 +487,7 @@ export default function App() {
         </div>
 
         <div className="max-w-4xl mx-auto px-4 py-6 text-center text-gray-400 text-sm">
-          <p>© {new Date().getFullYear()} LifeKey Emergency System. Secure & Private.</p>
+          <p>{t.copyright.replace('{year}', new Date().getFullYear().toString())} {t.securePrivate}</p>
         </div>
       </footer>
     </div>
