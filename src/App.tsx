@@ -181,23 +181,23 @@ export default function App() {
     <div className="min-h-screen bg-[#F8F9FA] text-[#1A1A1A] font-sans selection:bg-red-100 selection:text-red-900">
       {/* Header */}
       <header className="bg-white border-b border-gray-200 sticky top-0 z-10">
-        <div className="max-w-4xl mx-auto px-4 h-20 flex items-center justify-between">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <img src="/NSS.jpeg" alt="NSS" className="w-12 h-12 rounded-full" />
-            <h1 className="text-xl font-bold tracking-tight">{t.appName}</h1>
+            <img src="/NSS.jpeg" alt="NSS" className="w-8 h-8 sm:w-12 sm:h-12 rounded-full" />
+            <h1 className="text-lg sm:text-xl font-bold tracking-tight">{t.appName}</h1>
           </div>
-          <img src="/SCOE.jpeg" alt="SCOE" className="h-16 rounded-lg" />
-          <div className="flex items-center gap-4">
+          <img src="/SCOE.jpeg" alt="SCOE" className="h-10 sm:h-16 rounded-lg hidden sm:block" />
+          <div className="flex items-center gap-2 sm:gap-4">
             <select
               value={language}
               onChange={(e) => setLanguage(e.target.value)}
-              className="px-3 py-1.5 text-sm font-medium bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 outline-none transition-all cursor-pointer flex items-center gap-1"
+              className="px-2 py-1 sm:px-3 sm:py-1.5 text-xs sm:text-sm font-medium bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 outline-none transition-all cursor-pointer flex items-center gap-1"
             >
               {languages.map(lang => (
                 <option key={lang.code} value={lang.code}>{lang.name}</option>
               ))}
             </select>
-            <span className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 bg-green-50 text-green-700 text-xs font-semibold rounded-full border border-green-100">
+            <span className="hidden sm:inline-flex items-center gap-1.5 px-2 sm:px-3 py-1 bg-green-50 text-green-700 text-xs font-semibold rounded-full border border-green-100">
               <CheckCircle2 className="w-3 h-3" />
               {t.offline}
             </span>
@@ -205,13 +205,13 @@ export default function App() {
         </div>
       </header>
 
-      <main className="max-w-4xl mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
           
           {/* Form Section */}
           <section className="space-y-6">
-            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
-              <div className="flex items-center gap-2 mb-6">
+            <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-sm border border-gray-200">
+              <div className="flex items-center gap-2 mb-4 sm:mb-6">
                 <User className="w-5 h-5 text-red-600" />
                 <h2 className="text-lg font-semibold">{t.personalInformation}</h2>
               </div>
@@ -229,7 +229,7 @@ export default function App() {
                   />
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">{t.bloodGroup}</label>
                     <select
@@ -271,8 +271,8 @@ export default function App() {
               </div>
             </div>
 
-            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
-              <div className="flex items-center gap-2 mb-6">
+            <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-sm border border-gray-200">
+              <div className="flex items-center gap-2 mb-4 sm:mb-6">
                 <Phone className="w-5 h-5 text-red-600" />
                 <h2 className="text-lg font-semibold">{t.emergencyContacts}</h2>
               </div>
@@ -340,8 +340,8 @@ export default function App() {
               </div>
             </div>
 
-            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
-              <div className="flex items-center gap-2 mb-6">
+            <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-sm border border-gray-200">
+              <div className="flex items-center gap-2 mb-4 sm:mb-6">
                 <AlertCircle className="w-5 h-5 text-red-600" />
                 <h2 className="text-lg font-semibold">{t.emergencyServices}</h2>
               </div>
@@ -369,18 +369,18 @@ export default function App() {
               </div>
             </div>
 
-            <div className="flex gap-4">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
               <button
                 onClick={downloadQR}
                 disabled={!qrCodeUrl}
-                className="flex-1 bg-red-600 hover:bg-red-700 disabled:bg-red-400 text-white font-bold py-4 px-6 rounded-2xl shadow-lg shadow-red-200 transition-all active:scale-[0.98] flex items-center justify-center gap-2 text-lg"
+                className="flex-1 bg-red-600 hover:bg-red-700 disabled:bg-red-400 text-white font-bold py-3 sm:py-4 px-4 sm:px-6 rounded-2xl shadow-lg shadow-red-200 transition-all active:scale-[0.98] flex items-center justify-center gap-2 text-base sm:text-lg"
               >
-                <Download className="w-6 h-6" />
+                <Download className="w-5 h-5 sm:w-6 sm:h-6" />
                 {t.downloadEmergencyQR}
               </button>
               <button
                 onClick={resetForm}
-                className="px-6 py-4 bg-gray-100 hover:bg-gray-200 text-gray-600 font-semibold rounded-2xl transition-all"
+                className="px-4 sm:px-6 py-3 sm:py-4 bg-gray-100 hover:bg-gray-200 text-gray-600 font-semibold rounded-2xl transition-all"
                 title="Clear all data"
               >
                 {t.clear}
@@ -396,36 +396,36 @@ export default function App() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.95 }}
-                  className="bg-white rounded-3xl p-8 shadow-xl border border-gray-100 sticky top-24"
+                  className="bg-white rounded-3xl p-4 sm:p-6 lg:p-8 shadow-xl border border-gray-100 sticky top-24"
                 >
-                  <div className="text-center space-y-6">
-                    <div className="inline-block p-6 bg-white rounded-2xl border-4 border-gray-50 shadow-inner">
+                  <div className="text-center space-y-4 sm:space-y-6">
+                    <div className="inline-block p-4 sm:p-6 bg-white rounded-2xl border-4 border-gray-50 shadow-inner">
                       <img 
                         src={qrCodeUrl} 
                         alt="Emergency QR Code" 
-                        className="w-64 h-64 mx-auto"
+                        className="w-48 h-48 sm:w-56 sm:h-56 lg:w-64 lg:h-64 mx-auto"
                       />
                     </div>
                     
                     <div className="space-y-2">
-                      <h3 className="text-2xl font-bold text-gray-900">{t.yourEmergencyQR}</h3>
+                      <h3 className="text-xl sm:text-2xl font-bold text-gray-900">{t.yourEmergencyQR}</h3>
                       <p className="text-gray-500 text-sm">{t.downloadInstructions}</p>
                     </div>
 
                     <div className="grid grid-cols-1 gap-3">
                       <button
                         onClick={downloadQR}
-                        className="w-full bg-gray-900 hover:bg-black text-white font-bold py-4 px-6 rounded-2xl transition-all flex items-center justify-center gap-2"
+                        className="w-full bg-gray-900 hover:bg-black text-white font-bold py-3 sm:py-4 px-4 sm:px-6 rounded-2xl transition-all flex items-center justify-center gap-2"
                       >
-                        <Download className="w-5 h-5" />
+                        <Download className="w-4 h-4 sm:w-5 sm:h-5" />
                         {t.downloadAsJPEG}
                       </button>
                     </div>
 
-                    <div className="pt-6 border-t border-gray-100 text-left">
+                    <div className="pt-4 sm:pt-6 border-t border-gray-100 text-left">
                       <div className="flex items-center justify-between mb-4">
                         <div className="flex items-center gap-2 text-gray-400">
-                          <AlertCircle className="w-4 h-4" />
+                          <AlertCircle className="w-3 h-3 sm:w-4 sm:h-4" />
                           <span className="text-xs font-bold uppercase tracking-widest">{t.encodedInformation} ({t.editable})</span>
                         </div>
                         <div className="flex items-center gap-3">
@@ -443,21 +443,21 @@ export default function App() {
                       <textarea
                         value={encodedText}
                         onChange={handleTextChange}
-                        rows={8}
-                        className="w-full bg-gray-50 rounded-xl p-4 font-mono text-sm text-gray-700 leading-relaxed border border-transparent focus:border-red-200 focus:bg-white transition-all outline-none resize-none"
+                        rows={6}
+                        className="w-full bg-gray-50 rounded-xl p-3 sm:p-4 font-mono text-sm text-gray-700 leading-relaxed border border-transparent focus:border-red-200 focus:bg-white transition-all outline-none resize-none"
                         placeholder={t.typeEmergencyInfo}
                       />
                     </div>
                   </div>
                 </motion.div>
               ) : (
-                <div className="bg-gray-100 rounded-3xl p-12 border-2 border-dashed border-gray-200 flex flex-col items-center justify-center text-center space-y-4 h-full min-h-[400px]">
-                  <div className="w-20 h-20 bg-gray-200 rounded-full flex items-center justify-center">
-                    <Share2 className="w-10 h-10 text-gray-400" />
+                <div className="bg-gray-100 rounded-3xl p-8 sm:p-12 border-2 border-dashed border-gray-200 flex flex-col items-center justify-center text-center space-y-4 h-full min-h-[300px] sm:min-h-[400px]">
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gray-200 rounded-full flex items-center justify-center">
+                    <Share2 className="w-8 h-8 sm:w-10 sm:h-10 text-gray-400" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-gray-400">{t.qrPreviewTitle}</h3>
-                    <p className="text-gray-400 max-w-[240px] mx-auto">{t.qrPreviewText}</p>
+                    <h3 className="text-lg sm:text-xl font-bold text-gray-400">{t.qrPreviewTitle}</h3>
+                    <p className="text-gray-400 max-w-[240px] mx-auto text-sm sm:text-base">{t.qrPreviewText}</p>
                   </div>
                 </div>
               )}
@@ -468,12 +468,12 @@ export default function App() {
         </div>
       </main>
 
-      <footer className="mt-12">
+      <footer className="mt-8 sm:mt-12">
         <div className="w-full bg-blue-50 border-t border-blue-100">
-          <div className="max-w-7xl mx-auto px-4 py-8">
-            <div className="bg-blue-50 rounded-2xl p-6 border border-blue-100 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+            <div className="bg-blue-50 rounded-2xl p-4 sm:p-6 border border-blue-100 flex flex-col sm:flex-row items-start sm:items-center gap-4">
               <div className="shrink-0">
-                <Info className="w-6 h-6 text-blue-600" />
+                <Info className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600" />
               </div>
               <div className="space-y-1">
                 <h4 className="font-bold text-blue-900">{t.howItWorks}</h4>
@@ -485,7 +485,7 @@ export default function App() {
           </div>
         </div>
 
-        <div className="max-w-4xl mx-auto px-4 py-6 text-center text-gray-400 text-sm">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 text-center text-gray-400 text-sm">
           <p>{t.copyright.replace('{year}', new Date().getFullYear().toString())} {t.securePrivate}</p>
         </div>
       </footer>
