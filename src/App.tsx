@@ -183,9 +183,7 @@ export default function App() {
       <header className="bg-white border-b border-gray-200 sticky top-0 z-10">
         <div className="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center">
-              <Plus className="text-white w-5 h-5" />
-            </div>
+            <img src="/NSS.jpeg" alt="NSS" className="w-12 h-12 rounded-full" />
             <h1 className="text-xl font-bold tracking-tight">{t.appName}</h1>
           </div>
           <div className="flex items-center gap-4">
@@ -202,6 +200,7 @@ export default function App() {
               <CheckCircle2 className="w-3 h-3" />
               {t.offline}
             </span>
+            <img src="/SCOE.jpeg" alt="SCOE" className="w-12 h-12 rounded-full" />
           </div>
         </div>
       </header>
