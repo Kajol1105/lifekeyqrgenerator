@@ -181,11 +181,12 @@ export default function App() {
     <div className="min-h-screen bg-[#F8F9FA] text-[#1A1A1A] font-sans selection:bg-red-100 selection:text-red-900">
       {/* Header */}
       <header className="bg-white border-b border-gray-200 sticky top-0 z-10">
-        <div className="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
+        <div className="max-w-4xl mx-auto px-4 h-20 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <img src="/NSS.jpeg" alt="NSS" className="w-12 h-12 rounded-full" />
             <h1 className="text-xl font-bold tracking-tight">{t.appName}</h1>
           </div>
+          <img src="/SCOE.jpeg" alt="SCOE" className="h-16 rounded-lg" />
           <div className="flex items-center gap-4">
             <select
               value={language}
@@ -200,7 +201,6 @@ export default function App() {
               <CheckCircle2 className="w-3 h-3" />
               {t.offline}
             </span>
-            <img src="/SCOE.jpeg" alt="SCOE" className="w-12 h-12 rounded-full" />
           </div>
         </div>
       </header>
